@@ -1,18 +1,17 @@
 import os
 from pathlib import Path
+import dj_database_url  # Жаңы кошулду
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-default-key')
 
-# Render-де иштегенде DEBUG'ду False кылуу сунушталат
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
-# Render берген шилтемелерди автоматтык түрдө кабыл алуу үчүн
 ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
-    'cloudinary_storage', # Сөзсүз staticfiles-тан жогору турушу керек
+    'cloudinary_storage',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -25,7 +24,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',  # Статикалык файлдар үчүн (CSS, JS)
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -39,7 +38,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'], # Эгер негизги templates папкаңыз болсо
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -54,11 +53,13 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
+# --- БАЗА ЖӨНДӨӨСҮ ---
+# Төмөнкү тырмакчанын ичине Neon'дон көчүргөн postgresql:// шилтемесин чаптаңыз
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(
+        default='postgresql://neondb_owner:npg_ваш_пароль@ep-дарегиңиз.aws.neon.tech/neondb?sslmode=require',
+        conn_max_age=600
+    )
 }
 
 LANGUAGE_CODE = 'ru-ru'
@@ -66,14 +67,12 @@ TIME_ZONE = 'Asia/Bishkek'
 USE_I18N = True
 USE_TZ = True
 
-# Cloudinary маалыматтары
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': 'dtuyalp6m',
     'API_KEY': '636667862685854',
     'API_SECRET': 'PgRp9Z7dBhdkoVTk0K1sa1I1390'
 }
 
-# Django 6.0 үчүн STORAGES блогу (Эң маанилүүсү!)
 STORAGES = {
     "default": {
         "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
@@ -84,13 +83,9 @@ STORAGES = {
 }
 
 STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles' # Сервердеги статика топтоло турган жер
-
-# Whitenoise үчүн кошумча жөндөө
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 MEDIA_URL = '/media/'
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 import cloudinary
