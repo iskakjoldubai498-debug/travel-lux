@@ -107,3 +107,5 @@ cloudinary.config(
   api_secret = CLOUDINARY_STORAGE['API_SECRET'],
   secure = True
 )
+# Django 6.0+ үчүн cloudinary-storage китепканасына жардам иретинде:
+STATICFILES_STORAGE = 'cloudinary_storage.storage.StaticCloudinaryStorage'
