@@ -2,12 +2,17 @@ import os
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-SECRET_KEY = 'django-insecure-your-secret-key-here'
-DEBUG = True
+
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-default-key')
+
+# Render-де иштегенде DEBUG'ду False кылуу сунушталат
+DEBUG = os.environ.get('DEBUG', 'True') == 'True'
+
+# Render берген шилтемелерди автоматтык түрдө кабыл алуу үчүн
 ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
-    'cloudinary_storage',
+    'cloudinary_storage', # Сөзсүз staticfiles-тан жогору турушу керек
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -20,6 +25,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # Статикалык файлдар үчүн (CSS, JS)
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -33,10 +39,11 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'], # Эгер негизги templates папкаңыз болсо
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
@@ -44,6 +51,8 @@ TEMPLATES = [
         },
     },
 ]
+
+WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default': {
@@ -57,18 +66,34 @@ TIME_ZONE = 'Asia/Bishkek'
 USE_I18N = True
 USE_TZ = True
 
-STATIC_URL = 'static/'
+# Cloudinary маалыматтары
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': 'dtuyalp6m',
     'API_KEY': '636667862685854',
     'API_SECRET': 'PgRp9Z7dBhdkoVTk0K1sa1I1390'
 }
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-MEDIA_URL = '/media/'
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-import cloudinary
 
-# Cloudinary-ни маалыматтар менен активдештирүү
+# Django 6.0 үчүн STORAGES блогу (Эң маанилүүсү!)
+STORAGES = {
+    "default": {
+        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "cloudinary_storage.storage.StaticCloudinaryStorage",
+    },
+}
+
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles' # Сервердеги статика топтоло турган жер
+
+# Whitenoise үчүн кошумча жөндөө
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
+MEDIA_URL = '/media/'
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+import cloudinary
 cloudinary.config(
   cloud_name = CLOUDINARY_STORAGE['CLOUD_NAME'],
   api_key = CLOUDINARY_STORAGE['API_KEY'],
