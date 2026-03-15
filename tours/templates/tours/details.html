@@ -1,0 +1,100 @@
+{% extends 'tours/base.html' %}
+
+{% block content %}
+<style>
+    /* Анимациялар */
+    .reveal { opacity: 0; transform: translateY(30px); transition: all 1s ease-out; }
+    .reveal.active { opacity: 1; transform: translateY(0); }
+
+    .gold-gradient-text {
+        background: linear-gradient(135deg, #D4AF37 0%, #F1D382 50%, #D4AF37 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .image-mask {
+        clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
+    }
+</style>
+
+<div class="pt-48 pb-32 container mx-auto px-6 overflow-hidden transition-colors duration-500 dark:bg-[#0a0a0a]">
+
+    <div class="text-center mb-24 reveal active">
+        <span class="text-[#D4AF37] uppercase tracking-[0.6em] text-[10px] font-bold mb-6 block" data-i18n="about-tag">Биздин философия</span>
+        <h1 class="text-5xl md:text-8xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic leading-none">
+            Эмне үчүн <br>
+            <span class="gold-gradient-text">Бизди Тандашат?</span>
+        </h1>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+        <div class="relative reveal active">
+            <div class="absolute -inset-4 border border-[#D4AF37]/20 rounded-sm translate-x-4 translate-y-4"></div>
+            <img src="https://images.unsplash.com/photo-1527585145-5b190886f600?auto=format&fit=crop&q=80&w=1500"
+                 class="relative w-full grayscale hover:grayscale-0 transition duration-1000 rounded-sm shadow-2xl object-cover h-[600px]">
+            <div class="absolute bottom-10 -right-10 bg-[#D4AF37] p-10 hidden md:block">
+                <span class="text-5xl font-black text-black block">10+</span>
+                <span class="text-[10px] uppercase font-bold tracking-widest text-black">Жылдык тажрыйба</span>
+            </div>
+        </div>
+
+        <div class="space-y-16">
+            <div class="reveal delay-200">
+                <div class="flex items-center gap-6 mb-6">
+                    <span class="text-4xl font-black text-[#D4AF37]/30 italic">01</span>
+                    <h3 class="text-2xl font-black uppercase tracking-tighter dark:text-white" data-i18n="about-h1">Кол тийбеген табият</h3>
+                </div>
+                <p class="text-gray-500 dark:text-gray-400 leading-relaxed text-lg font-light italic">
+                    "Биз сизди жөн гана жерлерге эмес, Кыргызстандын жанына алып барабыз. Биздин команда эң кол тийбеген, адам буту баса элек 12 кооз локацияны тандап алган. Бул жерлерде сиз убакыттын токтоп калганын сезесиз."
+                </p>
+            </div>
+
+            <div class="reveal delay-400">
+                <div class="flex items-center gap-6 mb-6">
+                    <span class="text-4xl font-black text-[#D4AF37]/30 italic">02</span>
+                    <h3 class="text-2xl font-black uppercase tracking-tighter dark:text-white" data-i18n="about-h2">Эксклюзивдүү Comfort</h3>
+                </div>
+                <p class="text-gray-500 dark:text-gray-400 leading-relaxed text-lg font-light italic">
+                    "Lux тейлөө — бул биз үчүн стандарт. Биз премиум класстагы жол тандабастарды жана өз ишин сүйгөн кесипкөй гиддерди сунуштайбыз. Сиз табияттын кучагында жүрсөңүз да, өзүңүздү беш жылдыздуу мейманканадагыдай сезесиз."
+                </p>
+            </div>
+
+            <div class="reveal delay-600">
+                <div class="flex items-center gap-6 mb-6">
+                    <span class="text-4xl font-black text-[#D4AF37]/30 italic">03</span>
+                    <h3 class="text-2xl font-black uppercase tracking-tighter dark:text-white" data-i18n="about-h3">Жеке мамиле</h3>
+                </div>
+                <p class="text-gray-500 dark:text-gray-400 leading-relaxed text-lg font-light italic">
+                    "Ар бир конок — биздин досубуз. Биз массалык турларды эмес, жеке каалоолорго негизделген уникалдуу окуяларды түзөбүз. Сиздин коопсуздугуңуз жана жан дүйнөңүздүн тынчтыгы биздин эң жогорку максатыбыз."
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="py-32 bg-slate-900 dark:bg-black text-center transition-colors duration-500">
+    <div class="max-w-4xl mx-auto px-6">
+        <i class="fas fa-quote-left text-[#D4AF37] text-4xl mb-10"></i>
+        <h2 class="text-2xl md:text-4xl text-white font-light italic leading-snug">
+            "Саякат — бул акча коротконуң менен, сени байыта турган жалгыз нерсе."
+        </h2>
+        <div class="w-12 h-1 bg-[#D4AF37] mx-auto mt-10"></div>
+    </div>
+</section>
+
+<script>
+    // Жөнөкөй анимация кошуу (Экранды ылдый түшүргөндө тексттердин чыгышы)
+    function reveal() {
+        var reveals = document.querySelectorAll(".reveal");
+        for (var i = 0; i < reveals.length; i++) {
+            var windowHeight = window.innerHeight;
+            var elementTop = reveals[i].getBoundingClientRect().top;
+            var elementVisible = 150;
+            if (elementTop < windowHeight - elementVisible) {
+                reveals[i].classList.add("active");
+            }
+        }
+    }
+    window.addEventListener("scroll", reveal);
+</script>
+{% endblock %}
