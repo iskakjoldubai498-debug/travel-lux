@@ -1,13 +1,16 @@
 import os
 from pathlib import Path
-import dj_database_url  # Жаңы кошулду
+
+# Бул жерде ката чыкпоо үчүн "try-except" колдонобуз
+try:
+    import dj_database_url
+except ImportError:
+    dj_database_url = None
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-default-key')
-
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
-
 ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
@@ -53,14 +56,24 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-# --- БАЗА ЖӨНДӨӨСҮ ---
-# Төмөнкү тырмакчанын ичине Neon'дон көчүргөн postgresql:// шилтемесин чаптаңыз
-DATABASES = {
-    'default': dj_database_url.config(
-        default='postgresql://neondb_owner:npg_ваш_пароль@ep-дарегиңиз.aws.neon.tech/neondb?sslmode=require',
-        conn_max_age=600
-    )
-}
+# --- АКЫЛДУУ БАЗА ЖӨНДӨӨСҮ ---
+# Эгер серверде (Render) DATABASE_URL бар болсо, Neon'ду колдонот.
+# Эгер жок болсо (сиздин компьютериңизде), SQLite колдоно берет.
+if dj_database_url and os.environ.get('DATABASE_URL'):
+    DATABASES = {
+        'default': dj_database_url.config(
+            default=os.environ.get('DATABASE_URL'),
+            conn_max_age=600,
+            ssl_require=True
+        )
+    }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 LANGUAGE_CODE = 'ru-ru'
 TIME_ZONE = 'Asia/Bishkek'
@@ -84,7 +97,6 @@ STORAGES = {
 
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-
 MEDIA_URL = '/media/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
