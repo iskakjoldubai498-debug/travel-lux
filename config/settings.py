@@ -1,12 +1,8 @@
 import os
-from pathlib import Path
+import dj_database_url
+from pathlib import Path  # Бул сап Path катасын оңдойт
 
-# Бул жерде ката чыкпоо үчүн "try-except" колдонобуз
-try:
-    import dj_database_url
-except ImportError:
-    dj_database_url = None
-
+# Долбоордун негизги папкасы
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-default-key')
@@ -56,50 +52,36 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-# --- АКЫЛДУУ БАЗА ЖӨНДӨӨСҮ ---
-# Эгер серверде (Render) DATABASE_URL бар болсо, Neon'ду колдонот.
-# Эгер жок болсо (сиздин компьютериңизде), SQLite колдоно берет.
-if dj_database_url and os.environ.get('DATABASE_URL'):
-    DATABASES = {
-        'default': dj_database_url.config(
-            default=os.environ.get('DATABASE_URL'),
-            conn_max_age=600,
-            ssl_require=True
-        )
-    }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
-    }
+# --- МААЛЫМАТ БАЗАСЫ (Railway үчүн) ---
+# DATABASE_URL өзгөрмөсүн Railway'ден автоматтык түрдө алат
+DATABASES = {
+    'default': dj_database_url.config(
+        default=os.environ.get('DATABASE_URL', 'postgresql://postgres:bGrZpghvUvmzIKuIqtKrRrvizRyQXyKI@tramway.proxy.rlwy.net:37374/railway')
+    )
+}
 
 LANGUAGE_CODE = 'ru-ru'
 TIME_ZONE = 'Asia/Bishkek'
 USE_I18N = True
 USE_TZ = True
 
+# Cloudinary жөндөөлөрү
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': 'dtuyalp6m',
     'API_KEY': '636667862685854',
     'API_SECRET': 'PgRp9Z7dBhdkoVTk0K1sa1I1390'
 }
 
-STORAGES = {
-    "default": {
-        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
-    },
-    "staticfiles": {
-        "BACKEND": "cloudinary_storage.storage.StaticCloudinaryStorage",
-    },
-}
+# Статикалык жана медиа файлдарды сактоо
+STATICFILES_STORAGE = 'cloudinary_storage.storage.StaticCloudinaryStorage'
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 MEDIA_URL = '/media/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# Cloudinary конфигурациясын жандандыруу
 import cloudinary
 cloudinary.config(
   cloud_name = CLOUDINARY_STORAGE['CLOUD_NAME'],
@@ -107,5 +89,3 @@ cloudinary.config(
   api_secret = CLOUDINARY_STORAGE['API_SECRET'],
   secure = True
 )
-# Django 6.0+ үчүн cloudinary-storage китепканасына жардам иретинде:
-STATICFILES_STORAGE = 'cloudinary_storage.storage.StaticCloudinaryStorage'
