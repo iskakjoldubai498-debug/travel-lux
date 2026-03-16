@@ -101,7 +101,10 @@ MEDIA_URL = '/media/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # 9. Коопсуздук орнотуулары (Деплой үчүн маанилүү)
-CSRF_TRUSTED_ORIGINS = ['https://travel-lux-production.up.railway.app']
+CSRF_TRUSTED_ORIGINS = [
+    'https://travel-lux-production.up.railway.app',
+    'https://*.railway.app',
+]
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 CSRF_COOKIE_SECURE = True
