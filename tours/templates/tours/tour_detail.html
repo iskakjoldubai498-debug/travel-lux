@@ -2,143 +2,49 @@
 
 {% block content %}
 <style>
-    .detail-header { height: 65vh; position: relative; }
-
-    /* Карточкалардын түн режиминдеги стили */
-    .info-card {
-        background: white;
-        border-radius: 24px;
-        box-shadow: 0 10px 40px rgba(0,0,0,0.03);
-        border: 1px solid #f1f5f9;
-        transition: all 0.3s ease;
-    }
-    .dark .info-card {
-        background: #1e293b;
-        border-color: rgba(255,255,255,0.05);
-        box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-    }
-
-    .feature-item {
-        display: flex;
-        align-items: center;
-        gap: 15px;
-        padding: 18px;
-        border-radius: 16px;
-        background: #f8fafc;
-        transition: all 0.3s ease;
-    }
-    .dark .feature-item { background: #0f172a; }
-
-    .gold-gradient {
-        background: linear-gradient(135deg, #D4AF37 0%, #FFD700 100%);
-    }
+    .info-card { background: white; border-radius: 24px; border: 1px solid #f1f5f9; }
+    .dark .info-card { background: #1e293b; border-color: rgba(255,255,255,0.05); }
+    .gold-gradient { background: linear-gradient(135deg, #D4AF37 0%, #FFD700 100%); }
 </style>
 
-<section class="detail-header overflow-hidden">
-    <img src="{{ tour.image.url }}" class="w-full h-full object-cover transform scale-105 hover:scale-100 transition duration-[2s]">
-    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-end pb-20 justify-center text-center px-6">
-        <div class="max-w-4xl">
-            <span class="text-[#D4AF37] uppercase tracking-[0.5em] text-[10px] md:text-xs font-bold mb-4 block" data-i18n="detail-tag">Кыргызстан боюнча экспедиция</span>
-            <h1 class="text-3xl md:text-6xl text-white font-black uppercase tracking-tighter italic">{{ tour.title }}</h1>
-        </div>
-    </div>
-</section>
+<section class="pt-32 pb-20 dark:bg-[#0f172a] transition-colors duration-500">
+    <div class="container mx-auto px-6">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
 
-<section class="py-16 bg-gray-50 dark:bg-[#0a0a0a] px-6 transition-colors duration-300">
-    <div class="container mx-auto">
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
-
-            <div class="lg:col-span-2 space-y-10">
-
-                <div class="info-card p-8 md:p-12">
-                    <h2 class="text-2xl font-black mb-8 border-l-4 border-[#D4AF37] pl-6 dark:text-white uppercase italic" data-i18n="detail-info-title">Тур тууралуу маалымат</h2>
-                    <div class="text-gray-600 dark:text-gray-300 leading-relaxed text-lg space-y-4 font-light">
-                        {{ tour.description|linebreaks }}
-                    </div>
-                </div>
-
-                <div class="info-card p-8 md:p-12">
-                    <h2 class="text-2xl font-black mb-10 dark:text-white uppercase italic" data-i18n="detail-include-title">Эмнелер камтылган?</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="feature-item group">
-                            <i class="fas fa-car-side text-[#D4AF37] text-xl"></i>
-                            <span class="text-gray-700 dark:text-gray-200 font-medium" data-i18n="inc-1">Премиум класстагы унаа</span>
-                        </div>
-                        <div class="feature-item">
-                            <i class="fas fa-user-tie text-[#D4AF37] text-xl"></i>
-                            <span class="text-gray-700 dark:text-gray-200 font-medium" data-i18n="inc-2">Кесипкөй гид-коштоочу</span>
-                        </div>
-                        <div class="feature-item">
-                            <i class="fas fa-utensils text-[#D4AF37] text-xl"></i>
-                            <span class="text-gray-700 dark:text-gray-200 font-medium" data-i18n="inc-3">3 маал тамак-аш (Пикник)</span>
-                        </div>
-                        <div class="feature-item">
-                            <i class="fas fa-ticket-alt text-[#D4AF37] text-xl"></i>
-                            <span class="text-gray-700 dark:text-gray-200 font-medium" data-i18n="inc-4">Кирүү билеттери жана акылар</span>
-                        </div>
-                    </div>
+            <div class="relative h-[400px] md:h-[600px] rounded-[3rem] overflow-hidden shadow-2xl">
+                <img src="{{ tour.image.url }}" class="w-full h-full object-cover">
+                <div class="absolute top-8 left-8 bg-black/50 backdrop-blur-lg px-6 py-2 rounded-full">
+                    <span class="text-white text-xs font-black uppercase tracking-widest" data-i18n="detail-tag">Кыргызстан</span>
                 </div>
             </div>
 
-            <div class="lg:col-span-1">
-                <div class="info-card p-8 sticky top-32 border-t-4 border-[#D4AF37]">
-                    <div class="mb-8">
-                        <span class="text-gray-400 dark:text-gray-500 text-[10px] uppercase tracking-widest font-bold" data-i18n="detail-price-label">Турдун баасы:</span>
-                        <div class="text-5xl font-black text-gray-900 dark:text-white mt-2">
-                            {{ tour.price }} <span class="text-lg font-bold text-[#D4AF37]">сом</span>
-                        </div>
+            <div class="flex flex-col justify-center">
+                <h1 class="text-4xl md:text-6xl font-black mb-6 uppercase italic tracking-tighter dark:text-white leading-none">
+                    {{ tour.title }}
+                </h1>
+
+                <div class="grid grid-cols-2 gap-4 mb-10">
+                    <div class="info-card p-6">
+                        <span class="text-[10px] uppercase font-bold text-gray-400 block mb-1" data-i18n="search-when">Качан?</span>
+                        <span class="font-black dark:text-white">{{ tour.duration }}</span>
                     </div>
-
-                    <div class="space-y-5 mb-10">
-                        <div class="flex justify-between items-center py-3 border-b border-gray-100 dark:border-white/5">
-                            <span class="text-gray-500 dark:text-gray-400 text-xs uppercase font-bold" data-i18n="detail-dur">Мөөнөтү:</span>
-                            <span class="font-black dark:text-white uppercase text-sm">{{ tour.duration }}</span>
-                        </div>
-                        <div class="flex justify-between items-center py-3 border-b border-gray-100 dark:border-white/5">
-                            <span class="text-gray-500 dark:text-gray-400 text-xs uppercase font-bold" data-i18n="detail-type">Түрү:</span>
-                            <span class="font-black dark:text-white text-sm" data-i18n="detail-type-val">Жеке тур</span>
-                        </div>
-                        <div class="flex justify-between items-center py-3 border-b border-gray-100 dark:border-white/5">
-                            <span class="text-gray-500 dark:text-gray-400 text-xs uppercase font-bold">Локация:</span>
-                            <span class="font-black dark:text-white text-sm">Кыргызстан</span>
-                        </div>
+                    <div class="info-card p-6">
+                        <span class="text-[10px] uppercase font-bold text-gray-400 block mb-1" data-i18n="tours-title">Баасы</span>
+                        <span class="font-black text-[#D4AF37] text-xl">${{ tour.price }}</span>
                     </div>
+                </div>
 
-                    <a href="https://wa.me/996553956070?text=Саламатсызбы! Мага «{{ tour.title }}» туру боюнча маалымат бере аласызбы?"
-                       class="block w-full gold-gradient text-black text-center py-5 rounded-2xl font-black uppercase tracking-widest hover:scale-[1.02] active:scale-95 transition-all duration-300 shadow-xl shadow-amber-500/20 mb-6" data-i18n="btn-book-now">
-                        <i class="fab fa-whatsapp mr-2 text-xl"></i> Брондоо
-                    </a>
-
-                    <p class="text-[9px] text-gray-400 dark:text-gray-500 text-center uppercase tracking-widest leading-relaxed" data-i18n="detail-helper">
-                        Баскычты басканда оператор сизге 5 мүнөттүн ичинде жооп берет.
+                <div class="prose dark:prose-invert max-w-none mb-12">
+                    <p class="text-gray-500 dark:text-gray-400 text-lg leading-relaxed italic">
+                        {{ tour.description }}
                     </p>
                 </div>
+
+                <a href="https://wa.me/996553956070" class="gold-gradient w-full py-6 rounded-3xl text-center text-black font-black uppercase tracking-[0.2em] text-xs shadow-xl hover:scale-[1.02] transition-transform">
+                    <span data-i18n="btn-book-now">Брондоо</span>
+                </a>
             </div>
         </div>
     </div>
 </section>
-
-{% if tour.images.all %}
-<section class="py-24 bg-white dark:bg-[#0f172a] px-6 transition-colors duration-300">
-    <div class="container mx-auto">
-        <h2 class="text-3xl font-black mb-16 text-center uppercase tracking-tighter italic dark:text-white">
-            Саякаттан <span class="text-[#D4AF37]">сүрөттөр</span>
-        </h2>
-        <div class="columns-1 md:columns-2 lg:columns-4 gap-4 space-y-4">
-            {% for img in tour.images.all %}
-            <div class="break-inside-avoid rounded-3xl overflow-hidden shadow-lg group">
-                <img src="{{ img.image.url }}" class="w-full h-auto object-cover group-hover:scale-110 transition duration-1000">
-            </div>
-            {% endfor %}
-        </div>
-    </div>
-</section>
-{% endif %}
-
-<div class="py-20 text-center bg-gray-50 dark:bg-[#0a0a0a] transition-colors duration-300">
-    <a href="{% url 'tours_list' %}" class="inline-flex items-center text-gray-400 hover:text-[#D4AF37] font-black uppercase tracking-[0.4em] text-[10px] transition-all group">
-        <i class="fas fa-arrow-left mr-4 group-hover:-translate-x-2 transition-transform"></i>
-        <span data-i18n="btn-back">Башка турларды көрүү</span>
-    </a>
-</div>
 {% endblock %}

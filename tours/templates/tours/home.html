@@ -4,8 +4,9 @@
 <section class="relative h-[70vh] flex items-center justify-center bg-slate-900 dark:bg-black text-center px-6 overflow-hidden">
     <img src="https://images.unsplash.com/photo-1542332213-9b5a5a3fad35?auto=format&fit=crop&q=80&w=2070"
          class="absolute inset-0 w-full h-full object-cover opacity-40 zoom-effect">
+
     <div class="relative z-10">
-        <h1 class="text-5xl md:text-8xl text-white font-black uppercase tracking-tighter mb-4 italic">
+        <h1 class="text-6xl md:text-8xl text-white font-black uppercase tracking-tighter mb-4 italic">
             Travel <span class="text-[#D4AF37]">KG</span>
         </h1>
         <p class="text-gray-200 text-sm md:text-lg uppercase tracking-[0.4em] font-light" data-i18n="hero-subtitle">
@@ -21,7 +22,7 @@
             <i class="fas fa-map-marker-alt text-[#D4AF37] mr-4 text-xl"></i>
             <div class="flex-1">
                 <label class="block text-[10px] uppercase font-bold text-gray-400 tracking-widest" data-i18n="search-where">Каякка?</label>
-                <input type="text" name="search" placeholder="Мисалы: Кара-Кой"
+                <input type="text" name="search" placeholder="Мисалы: Кара-Кой" data-i18n-placeholder="search-placeholder"
                        class="w-full focus:outline-none bg-transparent text-gray-800 dark:text-white font-medium placeholder-gray-300"
                        value="{{ search_query|default:'' }}">
             </div>
@@ -33,14 +34,12 @@
                 <label class="block text-[10px] uppercase font-bold text-gray-400 tracking-widest" data-i18n="search-when">Качан?</label>
                 <select name="month" class="w-full focus:outline-none text-gray-800 dark:text-white font-medium bg-transparent cursor-pointer">
                     <option value="" class="text-gray-900 dark:bg-slate-900 dark:text-white" data-i18n="select-month">Кайсы айда?</option>
-                  <option value="Март" {% if month_query == "Март" %}selected{% endif %} class="text-gray-900 dark:bg-slate-900 dark:text-white">Март</option>
-<option value="Апрель" {% if month_query == "Апрель" %}selected{% endif %} class="text-gray-900 dark:bg-slate-900 dark:text-white">Апрель</option>
-<option value="Май" {% if month_query == "Май" %}selected{% endif %} class="text-gray-900 dark:bg-slate-900 dark:text-white">Май</option>
-<option value="Июнь" {% if month_query == "Июнь" %}selected{% endif %} class="text-gray-900 dark:bg-slate-900 dark:text-white">Июнь</option>
-<option value="Июль" {% if month_query == "Июль" %}selected{% endif %} class="text-gray-900 dark:bg-slate-900 dark:text-white">Июль</option>
-                 <option value="Август" {% if month_query == "Август" %}selected{% endif %} class="text-gray-900 dark:bg-slate-900 dark:text-white">Август</option>
-                 <option value="Сентябрь" {% if month_query == "Сентябрь" %}selected{% endif %} class="text-gray-900 dark:bg-slate-900 dark:text-white">Сентябрь</option>
-                 <option value="Октябрь" {% if month_query == "Октябрь" %}selected{% endif %} class="text-gray-900 dark:bg-slate-900 dark:text-white">Октябрь</option>
+                    <option value="Март" {% if month_query == "Март" %}selected{% endif %}>Март</option>
+                    <option value="Апрель" {% if month_query == "Апрель" %}selected{% endif %}>Апрель</option>
+                    <option value="Май" {% if month_query == "Май" %}selected{% endif %}>Май</option>
+                    <option value="Июнь" {% if month_query == "Июнь" %}selected{% endif %}>Июнь</option>
+                    <option value="Июль" {% if month_query == "Июль" %}selected{% endif %}>Июль</option>
+                    <option value="Август" {% if month_query == "Август" %}selected{% endif %}>Август</option>
                 </select>
             </div>
         </div>
@@ -56,10 +55,10 @@
 
         <div class="flex justify-between items-end mb-16">
             <div>
-                <h2 class="text-3xl md:text-5xl font-black text-gray-900 dark:text-white uppercase tracking-tighter italic">
+                <h2 class="text-4xl md:text-6xl font-black text-gray-900 dark:text-white uppercase tracking-tighter italic">
                     <span data-i18n="tours-title">Сунушталган</span> <span class="text-[#D4AF37]" data-i18n="tours-highlight">турлар</span>
                 </h2>
-                <div class="w-24 h-1.5 bg-[#D4AF37] mt-4"></div>
+                <div class="w-24 h-2 bg-[#D4AF37] mt-4"></div>
             </div>
         </div>
 
@@ -101,14 +100,13 @@
                         </div>
                     </div>
                 </div>
-
             {% empty %}
                 <div class="col-span-full text-center py-24 bg-white dark:bg-slate-900 rounded-[3rem] shadow-sm border-2 border-dashed border-gray-100 dark:border-white/10 px-6">
                     <div class="inline-flex items-center justify-center w-24 h-24 bg-amber-50 dark:bg-amber-900/20 rounded-full mb-8">
                         <i class="fas fa-search-location text-4xl text-[#D4AF37]"></i>
                     </div>
-                    <h3 class="text-3xl font-black text-gray-900 dark:text-white mb-4 italic text-center" data-i18n="no-tours">Кечиресиз, тур табылган жок</h3>
-                    <p class="text-gray-500 dark:text-gray-400 max-w-md mx-auto mb-10 text-center" data-i18n="no-tours-desc">
+                    <h3 class="text-3xl font-black text-gray-900 dark:text-white mb-4 italic" data-i18n="no-tours">Кечиресиз, тур табылган жок</h3>
+                    <p class="text-gray-500 dark:text-gray-400 max-w-md mx-auto mb-10" data-i18n="no-tours-desc">
                         Сиз издеген параметрлер боюнча азырынча турлар жок.
                     </p>
                     <a href="{% url 'home' %}" class="inline-block bg-black dark:bg-white dark:text-black text-white px-12 py-5 rounded-2xl font-black uppercase text-xs tracking-[0.2em] hover:bg-[#D4AF37] hover:text-black transition-all shadow-xl" data-i18n="btn-show-all">
@@ -121,7 +119,10 @@
 </section>
 
 <style>
-    .zoom-effect { transition: transform 20s linear; }
-    section:hover .zoom-effect { transform: scale(1.2); }
+    .zoom-effect { transition: transform 25s linear; }
+    section:hover .zoom-effect { transform: scale(1.15); }
+
+    /* Түн режиминдеги атайын өткөөлдөр */
+    .dark body { background-color: #0f172a; }
 </style>
 {% endblock %}

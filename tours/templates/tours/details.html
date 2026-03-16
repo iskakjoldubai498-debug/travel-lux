@@ -2,8 +2,7 @@
 
 {% block content %}
 <style>
-    /* Анимациялар */
-    .reveal { opacity: 0; transform: translateY(30px); transition: all 1s ease-out; }
+    .reveal { opacity: 0; transform: translateY(40px); transition: all 1.2s cubic-bezier(0.22, 1, 0.36, 1); }
     .reveal.active { opacity: 1; transform: translateY(0); }
 
     .gold-gradient-text {
@@ -12,89 +11,80 @@
         -webkit-text-fill-color: transparent;
     }
 
-    .image-mask {
-        clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
-    }
+    .about-image { height: 600px; object-fit: cover; }
+    @media (max-width: 768px) { .about-image { height: 400px; } }
 </style>
 
-<div class="pt-48 pb-32 container mx-auto px-6 overflow-hidden transition-colors duration-500 dark:bg-[#0a0a0a]">
+<div class="pt-32 md:pt-48 pb-24 container mx-auto px-6 overflow-hidden transition-colors duration-500 dark:bg-[#0f172a]">
 
-    <div class="text-center mb-24 reveal active">
-        <span class="text-[#D4AF37] uppercase tracking-[0.6em] text-[10px] font-bold mb-6 block" data-i18n="about-tag">Биздин философия</span>
-        <h1 class="text-5xl md:text-8xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic leading-none">
-            Эмне үчүн <br>
-            <span class="gold-gradient-text">Бизди Тандашат?</span>
+    <div class="text-center mb-20 reveal active">
+        <span class="text-[#D4AF37] uppercase tracking-[0.6em] text-[10px] font-black mb-6 block" data-i18n="about-tag"></span>
+        <h1 class="text-4xl md:text-8xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic leading-tight">
+            <span data-i18n="about-title-1"></span> <br>
+            <span class="gold-gradient-text" data-i18n="about-title-2"></span>
         </h1>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
         <div class="relative reveal active">
-            <div class="absolute -inset-4 border border-[#D4AF37]/20 rounded-sm translate-x-4 translate-y-4"></div>
+            <div class="absolute -inset-2 md:-inset-4 border border-[#D4AF37]/30 rounded-2xl translate-x-3 translate-y-3 md:translate-x-6 md:translate-y-6"></div>
             <img src="https://images.unsplash.com/photo-1527585145-5b190886f600?auto=format&fit=crop&q=80&w=1500"
-                 class="relative w-full grayscale hover:grayscale-0 transition duration-1000 rounded-sm shadow-2xl object-cover h-[600px]">
-            <div class="absolute bottom-10 -right-10 bg-[#D4AF37] p-10 hidden md:block">
-                <span class="text-5xl font-black text-black block">10+</span>
-                <span class="text-[10px] uppercase font-bold tracking-widest text-black">Жылдык тажрыйба</span>
+                 class="relative w-full about-image grayscale hover:grayscale-0 transition duration-1000 rounded-2xl shadow-2xl">
+
+            <div class="absolute bottom-6 -right-4 md:bottom-10 md:-right-10 bg-[#D4AF37] p-6 md:p-10 rounded-2xl shadow-2xl">
+                <span class="text-4xl md:text-6xl font-black text-black block leading-none">10+</span>
+                <span class="text-[8px] md:text-[10px] uppercase font-black tracking-widest text-black" data-i18n="about-exp"></span>
             </div>
         </div>
 
-        <div class="space-y-16">
-            <div class="reveal delay-200">
-                <div class="flex items-center gap-6 mb-6">
-                    <span class="text-4xl font-black text-[#D4AF37]/30 italic">01</span>
-                    <h3 class="text-2xl font-black uppercase tracking-tighter dark:text-white" data-i18n="about-h1">Кол тийбеген табият</h3>
+        <div class="space-y-12 md:space-y-16 mt-10 lg:mt-0">
+            <div class="reveal">
+                <div class="flex items-center gap-4 md:gap-6 mb-4 md:mb-6">
+                    <span class="text-3xl md:text-5xl font-black text-[#D4AF37]/20 italic">01</span>
+                    <h3 class="text-xl md:text-3xl font-black uppercase tracking-tighter dark:text-white" data-i18n="about-h1"></h3>
                 </div>
-                <p class="text-gray-500 dark:text-gray-400 leading-relaxed text-lg font-light italic">
-                    "Биз сизди жөн гана жерлерге эмес, Кыргызстандын жанына алып барабыз. Биздин команда эң кол тийбеген, адам буту баса элек 12 кооз локацияны тандап алган. Бул жерлерде сиз убакыттын токтоп калганын сезесиз."
-                </p>
+                <p class="text-gray-500 dark:text-gray-400 leading-relaxed text-base md:text-lg font-medium italic" data-i18n="about-p1"></p>
             </div>
 
-            <div class="reveal delay-400">
-                <div class="flex items-center gap-6 mb-6">
-                    <span class="text-4xl font-black text-[#D4AF37]/30 italic">02</span>
-                    <h3 class="text-2xl font-black uppercase tracking-tighter dark:text-white" data-i18n="about-h2">Эксклюзивдүү Comfort</h3>
+            <div class="reveal">
+                <div class="flex items-center gap-4 md:gap-6 mb-4 md:mb-6">
+                    <span class="text-3xl md:text-5xl font-black text-[#D4AF37]/20 italic">02</span>
+                    <h3 class="text-xl md:text-3xl font-black uppercase tracking-tighter dark:text-white" data-i18n="about-h2"></h3>
                 </div>
-                <p class="text-gray-500 dark:text-gray-400 leading-relaxed text-lg font-light italic">
-                    "Lux тейлөө — бул биз үчүн стандарт. Биз премиум класстагы жол тандабастарды жана өз ишин сүйгөн кесипкөй гиддерди сунуштайбыз. Сиз табияттын кучагында жүрсөңүз да, өзүңүздү беш жылдыздуу мейманканадагыдай сезесиз."
-                </p>
+                <p class="text-gray-500 dark:text-gray-400 leading-relaxed text-base md:text-lg font-medium italic" data-i18n="about-p2"></p>
             </div>
 
-            <div class="reveal delay-600">
-                <div class="flex items-center gap-6 mb-6">
-                    <span class="text-4xl font-black text-[#D4AF37]/30 italic">03</span>
-                    <h3 class="text-2xl font-black uppercase tracking-tighter dark:text-white" data-i18n="about-h3">Жеке мамиле</h3>
+            <div class="reveal">
+                <div class="flex items-center gap-4 md:gap-6 mb-4 md:mb-6">
+                    <span class="text-3xl md:text-5xl font-black text-[#D4AF37]/20 italic">03</span>
+                    <h3 class="text-xl md:text-3xl font-black uppercase tracking-tighter dark:text-white" data-i18n="about-h3"></h3>
                 </div>
-                <p class="text-gray-500 dark:text-gray-400 leading-relaxed text-lg font-light italic">
-                    "Ар бир конок — биздин досубуз. Биз массалык турларды эмес, жеке каалоолорго негизделген уникалдуу окуяларды түзөбүз. Сиздин коопсуздугуңуз жана жан дүйнөңүздүн тынчтыгы биздин эң жогорку максатыбыз."
-                </p>
+                <p class="text-gray-500 dark:text-gray-400 leading-relaxed text-base md:text-lg font-medium italic" data-i18n="about-p3"></p>
             </div>
         </div>
     </div>
 </div>
 
-<section class="py-32 bg-slate-900 dark:bg-black text-center transition-colors duration-500">
-    <div class="max-w-4xl mx-auto px-6">
-        <i class="fas fa-quote-left text-[#D4AF37] text-4xl mb-10"></i>
-        <h2 class="text-2xl md:text-4xl text-white font-light italic leading-snug">
-            "Саякат — бул акча коротконуң менен, сени байыта турган жалгыз нерсе."
-        </h2>
+<section class="py-24 md:py-32 bg-slate-900 dark:bg-black text-center transition-colors duration-500">
+    <div class="max-w-4xl mx-auto px-6 reveal">
+        <i class="fas fa-quote-left text-[#D4AF37] text-3xl md:text-5xl mb-8 md:mb-10"></i>
+        <h2 class="text-xl md:text-4xl text-white font-light italic leading-snug px-4" data-i18n="about-quote"></h2>
         <div class="w-12 h-1 bg-[#D4AF37] mx-auto mt-10"></div>
     </div>
 </section>
 
 <script>
-    // Жөнөкөй анимация кошуу (Экранды ылдый түшүргөндө тексттердин чыгышы)
     function reveal() {
         var reveals = document.querySelectorAll(".reveal");
         for (var i = 0; i < reveals.length; i++) {
             var windowHeight = window.innerHeight;
             var elementTop = reveals[i].getBoundingClientRect().top;
-            var elementVisible = 150;
-            if (elementTop < windowHeight - elementVisible) {
+            if (elementTop < windowHeight - 100) {
                 reveals[i].classList.add("active");
             }
         }
     }
     window.addEventListener("scroll", reveal);
+    document.addEventListener("DOMContentLoaded", reveal);
 </script>
 {% endblock %}
