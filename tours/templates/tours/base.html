@@ -24,8 +24,39 @@
         body { font-family: 'Montserrat', sans-serif; -webkit-tap-highlight-color: transparent; scroll-behavior: smooth; transition: background-color 0.3s ease; }
         .glass { background: rgba(241, 245, 249, 0.9); backdrop-filter: blur(10px); }
         .dark .glass { background: rgba(30, 41, 59, 0.9); border-bottom: 1px solid rgba(255,255,255,0.05); }
+
         #lang-dropdown { transition: all 0.2s ease-out; opacity: 0; transform: scale(0.95); pointer-events: none; }
         #lang-dropdown.active { opacity: 1; transform: scale(1); pointer-events: auto; }
+
+        /* Жаңы назик мобилдик меню стили */
+        #mobile-menu {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(15px); /* Айнек эффекти */
+            background: rgba(241, 245, 249, 0.85); /* Тунук боз */
+            height: auto;
+            max-height: 0; /* Башында жабык */
+            overflow: hidden;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+        .dark #mobile-menu {
+            background: rgba(15, 23, 42, 0.9);
+        }
+        #mobile-menu.active {
+            max-height: 300px; /* Экрандын болжол менен 20% бөлүгү */
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        .mobile-link {
+            font-size: 0.9rem; /* Текст назик жана кичине */
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            padding: 14px 25px;
+            display: block;
+            transition: all 0.2s ease;
+        }
     </style>
 </head>
 <body class="bg-[#fcfcfc] dark:bg-[#0f172a] text-[#111] dark:text-white overflow-x-hidden">
@@ -59,6 +90,19 @@
                         <button onclick="changeLang('en')" class="w-full text-left px-3 py-2 text-[9px] font-bold hover:bg-yellow-600 hover:text-white transition">EN</button>
                     </div>
                 </div>
+
+                <button id="mobile-menu-btn" class="md:hidden text-lg p-2 focus:outline-none">
+                    <i class="fas fa-bars-staggered transition-all duration-300"></i>
+                </button>
+            </div>
+        </div>
+
+        <div id="mobile-menu" class="w-full md:hidden">
+            <div class="flex flex-col pt-4">
+                <a href="{% url 'home' %}" class="mobile-link text-slate-700 dark:text-slate-200" data-i18n="nav-home">Home</a>
+                <a href="{% url 'tours_list' %}" class="mobile-link text-slate-700 dark:text-slate-200" data-i18n="nav-tours">Tours</a>
+                <a href="{% url 'details_page' %}" class="mobile-link text-slate-700 dark:text-slate-200" data-i18n="nav-details">Details</a>
+                <a href="{% url 'contact_page' %}" class="mobile-link text-slate-700 dark:text-slate-200" data-i18n="nav-contact">Contact</a>
             </div>
         </div>
     </nav>
@@ -70,17 +114,12 @@
    <script>
         const translations = {
             'kg': {
-                // Навигация
                 'nav-home': 'Башкы бет', 'nav-tours': 'Турлар', 'nav-details': 'Биз жөнүндө', 'nav-contact': 'Байланыш',
-
-                // Башкы бет (Home)
                 'hero-subtitle': 'Кыргызстандын сыйкырдуу дүйнөсү сизди күтөт',
                 'search-where': 'Каякка?', 'search-when': 'Качан?', 'search-btn': 'Издөө',
                 'tours-title': 'Сунушталган', 'tours-highlight': 'турлар',
                 'btn-details': 'Кененирээк', 'btn-book': 'Брондоо',
                 'no-tours': 'Кечиресиз, тур табылган жок', 'no-tours-desc': 'Сиз издеген параметрлер боюнча азырынча турлар жок.',
-
-                // Биз жөнүндө (About)
                 'about-tag': 'Биздин философия',
                 'about-title-1': 'Эмне үчүн', 'about-title-2': 'Бизди Тандашат?',
                 'about-exp': 'Жылдык тажрыйба',
@@ -91,8 +130,6 @@
                 'about-h3': 'Жеке мамиле',
                 'about-p3': '"Ар бир конок — биздин досубуз. Биз жеке каалоолорго негизделген уникалдуу окуяларды түзөбүз."',
                 'about-quote': '"Саякат — бул акча коротконуң менен, сени байыта турган жалгыз нерсе."',
-
-                // Турлар тизмеси жана Деталдары
                 'all-tours': 'Бардыгы',
                 'no-tours-cat': 'Бул категорияда азырынча турлар жок.',
                 'back-to-tours': 'Бардык турларга кайтуу',
@@ -103,8 +140,6 @@
                 'inc-1': 'Премиум унаа',
                 'cta-title': 'Суроолоруңуз барбы?',
                 'cta-desc': 'Биздин менеджерлер сизге эң ылайыктуу турду тандап берүүгө даяр.',
-
-                // Байланыш (Contact)
                 'contact-title': 'Бизге байланышыңыз',
                 'contact-call': 'Чалуу',
                 'contact-address-tag': 'Дарегибиз',
@@ -119,7 +154,6 @@
                 'tours-title': 'Рекомендуемые', 'tours-highlight': 'туры',
                 'btn-details': 'Подробнее', 'btn-book': 'Бронировать',
                 'no-tours': 'Извините, туры не найдены', 'no-tours-desc': 'По вашим параметрам туров пока нет.',
-
                 'about-tag': 'Наша философия',
                 'about-title-1': 'Почему', 'about-title-2': 'Выбирают нас?',
                 'about-exp': 'Лет опыта',
@@ -130,7 +164,6 @@
                 'about-h3': 'Личный подход',
                 'about-p3': '"Каждый гость — наш друг. Мы создаем истории на основе ваших желаний."',
                 'about-quote': '"Путешествие — единственная вещь, покупая которую, становишься богаче."',
-
                 'all-tours': 'Все',
                 'no-tours-cat': 'В этой категории пока нет туров.',
                 'back-to-tours': 'Вернуться ко всем турам',
@@ -141,7 +174,6 @@
                 'inc-1': 'Премиум авто',
                 'cta-title': 'Есть вопросы?',
                 'cta-desc': 'Наши менеджеры готовы помочь вам выбрать подходящий тур.',
-
                 'contact-title': 'Свяжитесь с нами', 'contact-call': 'Позвонить',
                 'contact-address-tag': 'Наш адрес', 'contact-city': 'г. Ош, Кыргызстан',
                 'contact-work-tag': 'Рабочее время', 'contact-phone': 'Телефон'
@@ -153,7 +185,6 @@
                 'tours-title': 'Featured', 'tours-highlight': 'tours',
                 'btn-details': 'Details', 'btn-book': 'Book',
                 'no-tours': 'Sorry, no tours found', 'no-tours-desc': 'There are no tours for your parameters yet.',
-
                 'about-tag': 'Our Philosophy',
                 'about-title-1': 'Why', 'about-title-2': 'Choose Us?',
                 'about-exp': 'Years of experience',
@@ -164,7 +195,6 @@
                 'about-h3': 'Personal Approach',
                 'about-p3': '"Every guest is a friend. We create personal stories based on your unique desires."',
                 'about-quote': '"Travel is the only thing you buy that makes you richer."',
-
                 'all-tours': 'All',
                 'no-tours-cat': 'There are no tours in this category yet.',
                 'back-to-tours': 'Back to all tours',
@@ -175,7 +205,6 @@
                 'inc-1': 'Premium vehicle',
                 'cta-title': 'Have questions?',
                 'cta-desc': 'Our managers are ready to help you choose the right tour.',
-
                 'contact-title': 'Contact Us', 'contact-call': 'Call',
                 'contact-address-tag': 'Our Address', 'contact-city': 'Osh city, Kyrgyzstan',
                 'contact-work-tag': 'Working Hours', 'contact-phone': 'Phone'
@@ -195,7 +224,6 @@
             localStorage.setItem('lang', lang);
         }
 
-        // Түн/Күн режими
         const themeToggle = document.getElementById('theme-toggle');
         if (themeToggle) {
             themeToggle.onclick = () => {
@@ -204,7 +232,6 @@
             };
         }
 
-        // Тил менюсу
         const langBtn = document.getElementById('lang-btn');
         const langDropdown = document.getElementById('lang-dropdown');
         if (langBtn && langDropdown) {
@@ -218,30 +245,37 @@
             if (langDropdown) langDropdown.classList.remove('active');
         };
 
-        // Мобилдик меню
+        // Мобилдик меню башкаруу
         const mobileMenu = document.getElementById('mobile-menu');
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-        const closeMenuBtn = document.getElementById('close-menu');
 
         function toggleMenu() {
             if (mobileMenu) {
-                mobileMenu.classList.toggle('translate-x-full');
-                document.body.classList.toggle('overflow-hidden');
+                const isActive = mobileMenu.classList.toggle('active');
+                const icon = mobileMenuBtn.querySelector('i');
+                if (isActive) {
+                    icon.classList.replace('fa-bars-staggered', 'fa-xmark');
+                } else {
+                    icon.classList.replace('fa-xmark', 'fa-bars-staggered');
+                }
             }
         }
 
         if (mobileMenuBtn) mobileMenuBtn.onclick = toggleMenu;
-        if (closeMenuBtn) closeMenuBtn.onclick = toggleMenu;
 
-        // Баракча жүктөлгөндө
+        document.querySelectorAll('.mobile-link').forEach(link => {
+            link.onclick = () => {
+                mobileMenu.classList.remove('active');
+                mobileMenuBtn.querySelector('i').classList.replace('fa-xmark', 'fa-bars-staggered');
+            };
+        });
+
         window.onload = () => {
             const savedLang = localStorage.getItem('lang') || 'kg';
             const savedTheme = localStorage.getItem('theme') || 'light';
-
             changeLang(savedLang);
-
-            if (savedTheme === 'dark') {
-                document.documentElement.classList.add('dark');
-            }
+            if (savedTheme === 'dark') document.documentElement.classList.add('dark');
         };
     </script>
+</body>
+</html>
