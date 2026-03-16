@@ -87,6 +87,7 @@ cloudinary.config(
 )
 
 # 8. Статикалык жана Медиа файлдар
+# 8. Статикалык жана Медиа файлдар
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
@@ -99,5 +100,6 @@ MEDIA_URL = '/media/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# 9. Коопсуздук орнотуулары (Деплой үчүн маанилүү)
 CSRF_TRUSTED_ORIGINS = ['https://travel-lux-production.up.railway.app']
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
