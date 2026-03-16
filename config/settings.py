@@ -1,6 +1,6 @@
 import os
 import dj_database_url
-from pathlib import Path  # Бул сап Path катасын оңдойт
+from pathlib import Path  # Бул сап 'Path' катасын өчүрөт
 
 # Долбоордун негизги папкасы
 BASE_DIR = Path(__file__).resolve().parent.parent
