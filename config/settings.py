@@ -103,3 +103,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # 9. Коопсуздук орнотуулары (Деплой үчүн маанилүү)
 CSRF_TRUSTED_ORIGINS = ['https://travel-lux-production.up.railway.app']
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
