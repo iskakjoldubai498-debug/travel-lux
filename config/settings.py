@@ -62,11 +62,14 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Railway DATABASE_URL өзгөрмөсүн автоматтык түрдө берет
 DATABASES = {
     'default': dj_database_url.config(
-        default=os.environ.get('DATABASE_URL') or f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
+        default=os.environ.get('DATABASE_URL'),
         conn_max_age=600,
-        ssl_require=False if 'localhost' in ALLOWED_HOSTS else True
+        ssl_require=True # Railway Postgres үчүн бул маанилүү
     )
 }
+
+# Эгер жогорудагы иштебесе, бул вариантты колдонуп көрүңүз:
+DATABASES['default']['OPTIONS'] = {'sslmode': 'require'}
 
 # --- ТИЛ ЖАНА УБАКЫТ ---
 LANGUAGE_CODE = 'ru-ru'
