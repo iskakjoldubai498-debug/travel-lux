@@ -3,15 +3,20 @@ from pathlib import Path
 import cloudinary
 import dj_database_url
 
+# Долбоордун негизги папкасы
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Коопсуздук
+# --- КООПСУЗДУК ---
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-default-key')
-DEBUG = os.environ.get('DEBUG', 'True') == 'True' # Локалдык режимде True болот
-ALLOWED_HOSTS = ['*']
+
+# Эгер серверде DEBUG өзгөрмөсү жок болсо, автоматтык түрдө False болот (коопсуздук үчүн)
+DEBUG = os.environ.get('DEBUG', 'False') == 'True'
+
+# Бардык домендерге уруксат берүү (Railway берген шилтемелер үчүн)
+ALLOWED_HOSTS = ['*', '.up.railway.app', 'localhost', '127.0.0.1']
 
 INSTALLED_APPS = [
-    'cloudinary_storage',
+    'cloudinary_storage', # Статикалык файлдар үчүн биринчи турушу керек
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -19,12 +24,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'cloudinary',
-    'tours',
+    'tours', # Сиздин тиркемеңиз
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware', # Статика үчүн маанилүү
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -53,29 +58,23 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-# --- МААНИЛҮҮ: БАЗА ЖӨНДӨӨСҮ ---
-# Эгер DATABASE_URL бар болсо (серверде), ошону колдонот.
-# Жок болсо (сиздин компьютерде), SQLite колдонот.
-if os.environ.get('DATABASE_URL'):
-    DATABASES = {
-        'default': dj_database_url.config(
-            conn_max_age=600,
-            ssl_require={'sslmode': 'disable'}
-        )
-    }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
-    }
+# --- МААНИЛҮҮ: МААЛЫМАТ БАЗАСЫ ---
+# Railway DATABASE_URL өзгөрмөсүн автоматтык түрдө берет
+DATABASES = {
+    'default': dj_database_url.config(
+        default=os.environ.get('DATABASE_URL') or f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
+        conn_max_age=600,
+        ssl_require=False if 'localhost' in ALLOWED_HOSTS else True
+    )
+}
 
+# --- ТИЛ ЖАНА УБАКЫТ ---
 LANGUAGE_CODE = 'ru-ru'
 TIME_ZONE = 'Asia/Bishkek'
 USE_I18N = True
 USE_TZ = True
 
+# --- CLOUDINARY (Сүрөттөр үчүн) ---
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': 'dtuyalp6m',
     'API_KEY': '636667862685854',
@@ -89,17 +88,23 @@ cloudinary.config(
     secure=True
 )
 
+# --- СТАТИКАЛЫК ФАЙЛДАР (CSS, JS) ---
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_DIRS = [BASE_DIR / 'static'] # Эгер долбоордо 'static' папкасы болсо
+
+# WhiteNoise үчүн оптималдаштыруу
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
+# --- МЕДИА ФАЙЛДАР (Сүрөт жүктөө) ---
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 MEDIA_URL = '/media/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# --- CSRF ЖӨНДӨӨЛӨРҮ ---
 CSRF_TRUSTED_ORIGINS = [
+    "https://*.up.railway.app",
     "https://travel-lux-production.up.railway.app",
-    "https://travel-lux.onrender.com",
 ]
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
