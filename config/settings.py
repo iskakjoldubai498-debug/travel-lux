@@ -9,14 +9,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # --- КООПСУЗДУК ---
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-default-key')
 
-# Эгер серверде DEBUG өзгөрмөсү жок болсо, автоматтык түрдө False болот (коопсуздук үчүн)
-DEBUG = os.environ.get('DEBUG', 'False') == 'True'
+# Ноутбукта иштеп жатканда DEBUG дайыма True болушу керек
+DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
-# Бардык домендерге уруксат берүү (Railway берген шилтемелер үчүн)
-ALLOWED_HOSTS = ['*', '.up.railway.app', 'localhost', '127.0.0.1']
+# Бардык домендерге жана IP даректерге уруксат берүү
+ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
-    'cloudinary_storage', # Статикалык файлдар үчүн биринчи турушу керек
+    'cloudinary_storage', 
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -24,12 +24,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'cloudinary',
-    'tours', # Сиздин тиркемеңиз
+    'tours', 
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware', # Статика үчүн маанилүү
+    'whitenoise.middleware.WhiteNoiseMiddleware', 
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -58,18 +58,27 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-# --- МААНИЛҮҮ: МААЛЫМАТ БАЗАСЫ ---
-# Railway DATABASE_URL өзгөрмөсүн автоматтык түрдө берет
-DATABASES = {
-    'default': dj_database_url.config(
-        default=os.environ.get('DATABASE_URL'),
-        conn_max_age=600,
-        ssl_require=True # Railway Postgres үчүн бул маанилүү
-    )
-}
+# --- МААЛЫМАТ БАЗАСЫ (Локалдык жана Railway үчүн) ---
+DATABASE_URL = os.environ.get('DATABASE_URL')
 
-# Эгер жогорудагы иштебесе, бул вариантты колдонуп көрүңүз:
-DATABASES['default']['OPTIONS'] = {'sslmode': 'require'}
+if DATABASE_URL:
+    # Railway же башка серверде иштегенде
+    DATABASES = {
+        'default': dj_database_url.config(
+            default=DATABASE_URL,
+            conn_max_age=600,
+            ssl_require=True
+        )
+    }
+    DATABASES['default']['OPTIONS'] = {'sslmode': 'require'}
+else:
+    # Ноутбукта локалдык иштегенде (db.sqlite3 колдонулат)
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 # --- ТИЛ ЖАНА УБАКЫТ ---
 LANGUAGE_CODE = 'ru-ru'
@@ -91,15 +100,15 @@ cloudinary.config(
     secure=True
 )
 
-# --- СТАТИКАЛЫК ФАЙЛДАР (CSS, JS) ---
+# --- СТАТИКАЛЫК ФАЙЛДАР ---
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATICFILES_DIRS = [BASE_DIR / 'static'] # Эгер долбоордо 'static' папкасы болсо
+STATICFILES_DIRS = [BASE_DIR / 'static']
 
-# WhiteNoise үчүн оптималдаштыруу
+# WhiteNoise статиканы иштетүү үчүн
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# --- МЕДИА ФАЙЛДАР (Сүрөт жүктөө) ---
+# --- МЕДИА ФАЙЛДАР ---
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 MEDIA_URL = '/media/'
 
@@ -109,6 +118,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CSRF_TRUSTED_ORIGINS = [
     "https://*.up.railway.app",
     "https://travel-lux-production.up.railway.app",
+    "http://10.174.189.71:8000", # Ноутбуктун IP дареги
 ]
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-# update
