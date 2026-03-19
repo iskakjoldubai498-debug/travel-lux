@@ -2,8 +2,33 @@
 
 {% block content %}
 <style>
-    /* Dark mode үчүн негизги фон */
-    .dark body { background-color: #0f172a; color: #f8fafc; }
+    /* 1. LUXURY ANIMATIONS & CORE STYLES */
+    @keyframes gold-pulse {
+        0% { transform: scale(1); opacity: 0.5; }
+        50% { transform: scale(1.6); opacity: 0; }
+        100% { transform: scale(1); opacity: 0; }
+    }
+
+    .animate-gold-pulse {
+        animation: gold-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+
+    /* Карточканын көтөрүлүшү */
+    .tour-card-custom {
+        transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+    }
+
+    .tour-card-custom:hover {
+        transform: translateY(-12px);
+    }
+
+    /* Сүрөттүн зум эффекти */
+    .tour-img-container img {
+        transition: transform 1.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+    }
+    .tour-card-custom:hover .tour-img-container img {
+        transform: scale(1.1);
+    }
 
     /* Категория баскычтары */
     .category-btn {
@@ -13,8 +38,7 @@
         background: white;
         color: #64748b;
         font-weight: 500;
-        display: inline-block;
-        white-space: nowrap; /* Тексттин бир сапта турушу үчүн */
+        white-space: nowrap;
     }
 
     .dark .category-btn {
@@ -23,157 +47,137 @@
         color: #94a3b8;
     }
 
-    .category-btn:hover {
-        border-color: #D4AF37;
-        color: #D4AF37;
-    }
-
     .category-btn.active {
         background: #D4AF37 !important;
         border-color: #D4AF37;
         color: black !important;
-        box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+        box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);
     }
 
-    /* Тур карточкалары */
-    .tour-card {
-        background: white;
-        border-radius: 20px;
-        overflow: hidden;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.03);
-        transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-        border: 1px solid #f1f5f9;
-    }
-
-    .dark .tour-card {
-        background: #1e293b;
-        border-color: #334155;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-    }
-
-    .tour-card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 20px 40px rgba(0,0,0,0.08);
-    }
-
-    .price-tag {
-        background: rgba(255, 255, 255, 0.9);
-        backdrop-filter: blur(5px);
-        color: #1a1a1a;
-        font-weight: 800;
-        border-radius: 8px;
-    }
-
-    .dark .price-tag {
-        background: rgba(15, 23, 42, 0.8);
-        color: white;
-        border: 1px solid rgba(255,255,255,0.1);
-    }
-
-    /* Мобилдик версияда горизонталдык сыдырманы жашыруу */
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 </style>
 
-<section class="pt-32 pb-12 bg-white dark:bg-slate-950 transition-colors duration-300">
+<section class="pt-32 pb-12 bg-white dark:bg-[#0f172a] transition-colors duration-500">
     <div class="container mx-auto px-6 text-center">
-        <h1 class="text-4xl md:text-6xl font-black text-slate-900 dark:text-white uppercase tracking-tighter mb-4 italic">
+        <h1 class="text-4xl md:text-7xl font-black text-slate-900 dark:text-white uppercase tracking-tighter mb-4 italic">
             <span data-i18n="tours-our">Биздин</span> <span class="text-[#D4AF37]" data-i18n="tours-title-main">Турлар</span>
         </h1>
-        <p class="text-slate-500 dark:text-slate-400 text-sm md:text-base max-w-2xl mx-auto uppercase tracking-widest font-light" data-i18n="tours-subtitle">
+
+        <p class="text-slate-500 dark:text-slate-400 text-[10px] md:text-xs max-w-2xl mx-auto uppercase tracking-[0.5em] font-light" data-i18n="tours-subtitle">
             Кыргызстандын эң кооз жерлерине унутулгус саякаттар
         </p>
     </div>
 </section>
 
-<div class="bg-white dark:bg-slate-900 border-b border-gray-100 dark:border-white/5 py-6 transition-colors duration-300">
-    <div class="container mx-auto px-4 md:px-6">
-        <div class="flex flex-nowrap md:flex-wrap gap-2 md:gap-4 justify-start md:justify-center overflow-x-auto no-scrollbar pb-2">
-            <a href="{% url 'tours_list' %}"
-               class="category-btn px-6 md:px-8 py-3 text-[10px] md:text-[11px] uppercase tracking-widest {% if not request.GET.category %}active{% endif %}" data-i18n="cat-all">
+<div class="bg-white dark:bg-[#0f172a] border-y border-gray-100 dark:border-white/5 py-6 transition-colors duration-500">
+    <div class="container mx-auto px-4">
+        <div class="flex flex-nowrap md:flex-wrap gap-3 justify-start md:justify-center overflow-x-auto no-scrollbar pb-2">
+            <a href="{% url 'tours_list' %}" class="category-btn px-8 py-3 text-[10px] uppercase font-black tracking-widest {% if not request.GET.category %}active{% endif %}">
                 Бардыгы
             </a>
-
-            <a href="{% url 'tours_list' %}?category=mountain"
-               class="category-btn px-6 md:px-8 py-3 text-[10px] md:text-[11px] uppercase tracking-widest {% if request.GET.category == 'mountain' %}active{% endif %}" data-i18n="cat-mountain">
+            <a href="?category=mountain" class="category-btn px-8 py-3 text-[10px] uppercase font-black tracking-widest {% if request.GET.category == 'mountain' %}active{% endif %}">
                 Тоо турлары
             </a>
-
-            <a href="{% url 'tours_list' %}?category=horse"
-               class="category-btn px-6 md:px-8 py-3 text-[10px] md:text-[11px] uppercase tracking-widest {% if request.GET.category == 'horse' %}active{% endif %}" data-i18n="cat-horse">
+            <a href="?category=horse" class="category-btn px-8 py-3 text-[10px] uppercase font-black tracking-widest {% if request.GET.category == 'horse' %}active{% endif %}">
                 Тарыхый жерлер
             </a>
-
-            <a href="{% url 'tours_list' %}?category=vip"
-               class="category-btn px-6 md:px-8 py-3 text-[10px] md:text-[11px] uppercase tracking-widest {% if request.GET.category == 'vip' %}active{% endif %}" data-i18n="cat-vip">
+            <a href="?category=vip" class="category-btn px-8 py-3 text-[10px] uppercase font-black tracking-widest {% if request.GET.category == 'vip' %}active{% endif %}">
                 VIP Экспедиция
             </a>
         </div>
     </div>
 </div>
 
-<section class="py-16 bg-slate-50 dark:bg-slate-950 transition-colors duration-300">
+<section class="py-20 bg-[#fcfcfc] dark:bg-[#0f172a] transition-colors duration-500">
     <div class="container mx-auto px-6">
         {% if tours %}
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
                 {% for tour in tours %}
-                <div class="tour-card group">
+                <div class="tour-card-custom relative group/card">
                     <a href="{% url 'tour_detail' tour.pk %}" class="block">
-                        <div class="relative h-[300px] overflow-hidden">
+
+                        <div class="tour-img-container relative h-[350px] rounded-[2.5rem] overflow-hidden shadow-2xl z-10">
                             {% if tour.image %}
-                            <img src="{{ tour.image.url }}" class="w-full h-full object-cover transition duration-700 group-hover:scale-110">
+                                <img src="{{ tour.image.url }}" class="w-full h-full object-cover" alt="{{ tour.title }}">
                             {% endif %}
-                            <div class="absolute top-5 right-5 price-tag px-5 py-2 text-sm shadow-sm">
-                                {{ tour.price }} сом
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-60"></div>
+
+                            <div class="absolute top-6 right-6 bg-black/30 backdrop-blur-md px-6 py-2 rounded-full border border-white/10">
+                                <span class="text-[#D4AF37] font-black text-sm">{{ tour.price }} сом</span>
                             </div>
                         </div>
 
-                        <div class="p-8">
-                            <div class="flex justify-between items-center mb-4">
-                                <span class="text-[10px] text-[#D4AF37] font-bold uppercase tracking-[0.3em] bg-amber-50 dark:bg-amber-900/20 px-3 py-1 rounded">
-                                    {{ tour.duration }}
-                                </span>
-                                <div class="text-slate-400 text-xs">
-                                    <i class="fas fa-map-marker-alt mr-1"></i> Кыргызстан
+                        <div class="mx-4 -mt-20 relative z-20 bg-white dark:bg-slate-900/90 backdrop-blur-xl p-10 rounded-[2.5rem] border border-slate-100 dark:border-white/5 shadow-xl transition-all duration-500 group-hover/card:border-[#D4AF37]/30">
+
+                            <div class="absolute -top-24 -right-24 w-48 h-48 bg-[#D4AF37]/10 blur-[80px] rounded-full opacity-0 group-hover/card:opacity-100 transition-opacity duration-1000"></div>
+                            <div class="absolute -bottom-24 -left-24 w-64 h-64 bg-[#D4AF37]/5 blur-[100px] rounded-full opacity-0 group-hover/card:opacity-100 transition-opacity duration-1000"></div>
+
+                            <div class="flex justify-between items-center mb-8">
+                                <div class="flex items-center gap-3">
+                                    <div class="relative flex h-2 w-2">
+                                        <span class="animate-gold-pulse absolute inline-flex h-full w-full rounded-full bg-[#D4AF37]"></span>
+                                        <span class="relative inline-flex rounded-full h-2 w-2 bg-[#D4AF37]"></span>
+                                    </div>
+                                    <span class="text-[10px] text-[#D4AF37] font-black uppercase tracking-[0.4em]">
+                                        {{ tour.duration }}
+                                    </span>
+                                </div>
+                                <div class="text-slate-400 text-[9px] uppercase tracking-[0.3em] font-bold">
+                                    <i class="fas fa-location-dot mr-1 text-[#D4AF37]/60"></i> Кыргызстан
                                 </div>
                             </div>
 
-                            <h3 class="text-2xl font-bold text-slate-800 dark:text-white mb-4 group-hover:text-[#D4AF37] transition-colors uppercase tracking-tight">
-                                {{ tour.title }}
-                            </h3>
+                            <div class="relative mb-6">
+                                <h3 class="text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-[0.9] transition-all duration-700 group-hover/card:text-[#D4AF37]">
+                                    {{ tour.title }}<span class="text-[#D4AF37] inline-block">.</span>
+                                </h3>
+                                <div class="absolute -bottom-2 left-0 w-0 h-[1px] bg-gradient-to-r from-[#D4AF37] to-transparent group-hover/card:w-full transition-all duration-1000"></div>
+                            </div>
 
-                            <p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed mb-8 line-clamp-2 font-light">
+                            <p class="text-slate-500 dark:text-gray-400 text-sm leading-relaxed mb-10 line-clamp-2 font-light italic tracking-wide group-hover/card:text-slate-900 dark:group-hover/card:text-gray-200 transition-colors duration-500">
                                 {{ tour.description }}
                             </p>
 
-                            <div class="flex items-center justify-between border-t border-slate-50 dark:border-white/5 pt-6">
-                                <span class="text-[11px] font-bold uppercase tracking-widest text-slate-400 group-hover:text-black dark:group-hover:text-white transition-colors" data-i18n="btn-view">
-                                    Кененирээк көрүү
-                                </span>
-                                <div class="w-10 h-10 rounded-full border border-slate-200 dark:border-slate-700 flex items-center justify-center group-hover:bg-black dark:group-hover:bg-[#D4AF37] group-hover:border-black dark:group-hover:border-[#D4AF37] transition-all">
-                                    <i class="fas fa-arrow-right text-[10px] group-hover:text-white dark:group-hover:text-black"></i>
+                            <div class="flex items-center justify-between border-t border-slate-50 dark:border-white/5 pt-8">
+                                <div class="flex items-center gap-3">
+                                    <span class="text-[11px] font-black uppercase tracking-[0.5em] text-slate-400 group-hover/card:text-black dark:group-hover/card:text-white transition-colors duration-500">
+                                        Кененирээк
+                                    </span>
+                                    <div class="w-0 h-[1px] bg-[#D4AF37] group-hover/card:w-12 transition-all duration-700"></div>
+                                </div>
+
+                                <div class="relative">
+                                    <div class="absolute inset-0 rounded-full border border-[#D4AF37] scale-150 opacity-0 group-hover/card:opacity-100 group-hover/card:scale-100 transition-all duration-700"></div>
+                                    <div class="w-14 h-14 rounded-full border border-slate-200 dark:border-white/10 flex items-center justify-center transition-all duration-500 group-hover/card:bg-[#D4AF37] group-hover/card:border-[#D4AF37] group-hover/card:shadow-[0_0_30px_rgba(212,175,55,0.4)]">
+                                        <i class="fas fa-arrow-right text-[12px] text-slate-400 group-hover/card:text-black transform transition-transform duration-500 group-hover/card:-rotate-45"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+
+                        <div class="absolute top-0 right-0 w-1 h-0 bg-[#D4AF37] group-hover/card:h-20 transition-all duration-1000 z-30"></div>
+                        <div class="absolute top-0 right-0 h-1 w-0 bg-[#D4AF37] group-hover/card:w-20 transition-all duration-1000 z-30"></div>
                     </a>
                 </div>
                 {% endfor %}
             </div>
         {% else %}
-            <div class="text-center py-20">
-                <i class="fas fa-search text-5xl text-slate-200 dark:text-slate-800 mb-6"></i>
-                <h3 class="text-xl text-slate-400 font-light" data-i18n="no-tours-cat">Бул категорияда азырынча турлар жок.</h3>
-                <a href="{% url 'tours_list' %}" class="text-[#D4AF37] mt-4 inline-block underline" data-i18n="back-to-tours">Бардык турларга кайтуу</a>
+            <div class="text-center py-24 bg-white dark:bg-slate-900/50 rounded-[3rem] border border-dashed border-slate-200 dark:border-slate-800">
+                <i class="fas fa-search text-6xl text-slate-100 dark:text-slate-800 mb-8"></i>
+                <h3 class="text-xl text-slate-400 font-light uppercase tracking-widest" data-i18n="no-tours-cat">Бул категорияда азырынча турлар жок</h3>
+                <a href="{% url 'tours_list' %}" class="text-[#D4AF37] mt-6 inline-block font-black uppercase text-[10px] tracking-widest underline">Бардык турларга кайтуу</a>
             </div>
         {% endif %}
     </div>
 </section>
 
-<section class="bg-slate-900 dark:bg-black py-24 text-center px-6 transition-colors duration-300">
-    <div class="container mx-auto">
-        <h2 class="text-white text-3xl md:text-4xl font-bold mb-6" data-i18n="cta-title">Суроолоруңуз барбы?</h2>
-        <p class="text-slate-400 mb-10 max-w-xl mx-auto font-light" data-i18n="cta-desc">Биздин менеджерлер сизге эң ылайыктуу турду тандап берүүгө жардам беришет.</p>
-        <a href="https://wa.me/996553956070" class="inline-block bg-[#D4AF37] text-black px-12 py-5 rounded-full font-bold uppercase tracking-widest text-xs hover:bg-white transition-all shadow-lg shadow-amber-500/20">
+<section class="bg-slate-900 dark:bg-black py-28 text-center px-6 relative overflow-hidden transition-colors duration-500">
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[1px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent opacity-40"></div>
+    <div class="container mx-auto relative z-10">
+        <h2 class="text-white text-4xl md:text-6xl font-black uppercase tracking-tighter mb-8 italic" data-i18n="cta-title">Суроолоруңуз барбы?</h2>
+        <p class="text-slate-400 mb-12 max-w-xl mx-auto font-light leading-relaxed text-sm md:text-base" data-i18n="cta-desc">Биздин менеджерлер сизге эң ылайыктуу турду тандап берүүгө жардам беришет.</p>
+        <a href="https://wa.me/996553956070" class="inline-block bg-[#D4AF37] text-black px-14 py-6 rounded-full font-black uppercase tracking-[0.3em] text-[10px] hover:bg-white hover:scale-105 transition-all duration-500 shadow-2xl shadow-[#D4AF37]/20">
             WhatsApp аркылуу жазуу
         </a>
     </div>

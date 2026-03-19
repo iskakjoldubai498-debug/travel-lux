@@ -74,7 +74,6 @@ class Tour(models.Model):
 
 
 class TourImage(models.Model):
-    # ForeignKey азыр туура иштейт, анткени Tour модели бирөө эле
     tour = models.ForeignKey(Tour, related_name='images', on_delete=models.CASCADE)
     image = CloudinaryField('Кошумча сүрөт')
     caption = models.CharField(max_length=200, blank=True, verbose_name="Сүрөт маалыматы")
@@ -85,3 +84,18 @@ class TourImage(models.Model):
 
     def __str__(self):
         return f"{self.tour.title} - Сүрөт"
+
+
+# ЗАКАЗДАР ҮЧҮН МОДЕЛЬ (Өзүнчө класс, солго такалып жазылды)
+class Order(models.Model):
+    full_name = models.CharField(max_length=255, verbose_name="Кардардын аты")
+    phone_number = models.CharField(max_length=20, verbose_name="Телефон номери")
+    service_name = models.CharField(max_length=255, default="Тез заказ", verbose_name="Кызмат")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Убактысы")
+
+    class Meta:
+        verbose_name = "Заказ"
+        verbose_name_plural = "Заказдар"
+
+    def __str__(self):
+        return f"{self.full_name} - {self.phone_number}"

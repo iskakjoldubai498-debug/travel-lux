@@ -1,128 +1,351 @@
 {% extends 'tours/base.html' %}
 
+
+
 {% block content %}
+
 <section class="relative h-[70vh] flex items-center justify-center bg-slate-900 dark:bg-black text-center px-6 overflow-hidden">
-    <img src="https://images.unsplash.com/photo-1542332213-9b5a5a3fad35?auto=format&fit=crop&q=80&w=2070"
-         class="absolute inset-0 w-full h-full object-cover opacity-40 zoom-effect">
 
-    <div class="relative z-10">
-        <h1 class="text-6xl md:text-8xl text-white font-black uppercase tracking-tighter mb-4 italic">
-            Travel <span class="text-[#D4AF37]">KG</span>
-        </h1>
-        <p class="text-gray-200 text-sm md:text-lg uppercase tracking-[0.4em] font-light" data-i18n="hero-subtitle">
-            Кыргызстандын сыйкырдуу дүйнөсү сизди күтөт
-        </p>
-    </div>
-</section>
+<img src="https://images.unsplash.com/photo-1542332213-9b5a5a3fad35?auto=format&fit=crop&q=80&w=2070"
 
-<div class="container mx-auto px-6" style="margin-top: -60px; position: relative; z-index: 30;">
-    <form action="{% url 'home' %}" method="GET" class="max-w-5xl mx-auto bg-white dark:bg-slate-900 p-3 md:p-5 rounded-[2.5rem] shadow-2xl flex flex-col md:flex-row gap-4 border border-gray-100 dark:border-white/10 transition-all duration-300">
+class="absolute inset-0 w-full h-full object-cover opacity-40 zoom-effect">
 
-        <div class="flex-1 flex items-center px-6 py-2 border-b md:border-b-0 md:border-r border-gray-100 dark:border-white/10">
-            <i class="fas fa-map-marker-alt text-[#D4AF37] mr-4 text-xl"></i>
-            <div class="flex-1">
-                <label class="block text-[10px] uppercase font-bold text-gray-400 tracking-widest" data-i18n="search-where">Каякка?</label>
-                <input type="text" name="search" placeholder="Мисалы: Кара-Кой" data-i18n-placeholder="search-placeholder"
-                       class="w-full focus:outline-none bg-transparent text-gray-800 dark:text-white font-medium placeholder-gray-300"
-                       value="{{ search_query|default:'' }}">
-            </div>
-        </div>
 
-        <div class="flex-1 flex items-center px-6 py-2 border-b md:border-b-0 md:border-r border-gray-100 dark:border-white/10">
-            <i class="fas fa-calendar-alt text-[#D4AF37] mr-4 text-xl"></i>
-            <div class="flex-1">
-                <label class="block text-[10px] uppercase font-bold text-gray-400 tracking-widest" data-i18n="search-when">Качан?</label>
-                <select name="month" class="w-full focus:outline-none text-gray-800 dark:text-white font-medium bg-transparent cursor-pointer">
-                    <option value="" class="text-gray-900 dark:bg-slate-900 dark:text-white" data-i18n="select-month">Кайсы айда?</option>
-                    <option value="Март" {% if month_query == "Март" %}selected{% endif %}>Март</option>
-                    <option value="Апрель" {% if month_query == "Апрель" %}selected{% endif %}>Апрель</option>
-                    <option value="Май" {% if month_query == "Май" %}selected{% endif %}>Май</option>
-                    <option value="Июнь" {% if month_query == "Июнь" %}selected{% endif %}>Июнь</option>
-                    <option value="Июль" {% if month_query == "Июль" %}selected{% endif %}>Июль</option>
-                    <option value="Август" {% if month_query == "Август" %}selected{% endif %}>Август</option>
-                </select>
-            </div>
-        </div>
 
-        <button type="submit" class="bg-[#D4AF37] hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black text-black px-12 py-5 rounded-3xl font-black uppercase tracking-widest text-xs transition-all duration-500 shadow-lg shadow-amber-200/50" data-i18n="search-btn">
-            Издөө
-        </button>
-    </form>
+<div class="relative z-10">
+
+<h1 class="text-6xl md:text-8xl text-white font-black uppercase tracking-tighter mb-4 italic">
+
+Travel <span class="text-[#D4AF37]">KG</span>
+
+</h1>
+
+<p class="text-gray-200 text-sm md:text-lg uppercase tracking-[0.4em] font-light" data-i18n="hero-subtitle">
+
+Кыргызстандын сыйкырдуу дүйнөсү сизди күтөт
+
+</p>
+
 </div>
 
-<section class="py-24 bg-gray-50 dark:bg-[#0f172a] transition-colors duration-300">
-    <div class="container mx-auto px-6">
-
-        <div class="flex justify-between items-end mb-16">
-            <div>
-                <h2 class="text-4xl md:text-6xl font-black text-gray-900 dark:text-white uppercase tracking-tighter italic">
-                    <span data-i18n="tours-title">Сунушталган</span> <span class="text-[#D4AF37]" data-i18n="tours-highlight">турлар</span>
-                </h2>
-                <div class="w-24 h-2 bg-[#D4AF37] mt-4"></div>
-            </div>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-            {% for tour in tours %}
-                <div class="bg-white dark:bg-slate-900 rounded-[2.5rem] overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 group border border-gray-100 dark:border-white/5 flex flex-col h-full">
-                    <div class="relative h-72 overflow-hidden">
-                        {% if tour.image %}
-                            <img src="{{ tour.image.url }}" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
-                        {% endif %}
-                        <div class="absolute top-6 right-6 bg-white/90 dark:bg-slate-800/95 backdrop-blur px-5 py-2.5 rounded-2xl font-black text-gray-900 dark:text-white shadow-xl border border-white/50 dark:border-white/10">
-                            {{ tour.price }} сом
-                        </div>
-                    </div>
-
-                    <div class="p-8 flex flex-col flex-grow text-left">
-                        <div class="flex items-center gap-3 mb-4">
-                            <span class="text-[10px] font-bold text-[#D4AF37] uppercase bg-amber-50 dark:bg-amber-900/30 px-3 py-1 rounded-lg">
-                                <i class="far fa-clock mr-1"></i> {{ tour.duration }}
-                            </span>
-                            <span class="text-[10px] font-bold text-gray-400 uppercase bg-gray-50 dark:bg-white/5 px-3 py-1 rounded-lg">
-                                <i class="far fa-calendar-alt mr-1"></i> {{ tour.month }}
-                            </span>
-                        </div>
-
-                        <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-6 group-hover:text-[#D4AF37] transition line-clamp-2">
-                            {{ tour.title }}
-                        </h3>
-
-                        <div class="mt-auto pt-6 flex gap-3">
-                            <a href="{% url 'tour_detail' tour.pk %}"
-                               class="flex-1 text-center py-4 border-2 border-gray-100 dark:border-white/10 rounded-2xl font-bold text-[10px] uppercase tracking-widest text-gray-400 dark:text-gray-300 hover:border-black dark:hover:border-white hover:text-black dark:hover:text-white transition-all" data-i18n="btn-details">
-                                Кененирээк
-                            </a>
-                            <a href="https://wa.me/996553956070?text=Саламатсызбы! '{{ tour.title }}' туру боюнча маалымат алайын дедим эле."
-                               class="flex-1 bg-[#D4AF37] text-center py-4 rounded-2xl font-bold text-[10px] uppercase tracking-widest text-black hover:bg-black hover:text-white transition-all" data-i18n="btn-book">
-                                Брондоо
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            {% empty %}
-                <div class="col-span-full text-center py-24 bg-white dark:bg-slate-900 rounded-[3rem] shadow-sm border-2 border-dashed border-gray-100 dark:border-white/10 px-6">
-                    <div class="inline-flex items-center justify-center w-24 h-24 bg-amber-50 dark:bg-amber-900/20 rounded-full mb-8">
-                        <i class="fas fa-search-location text-4xl text-[#D4AF37]"></i>
-                    </div>
-                    <h3 class="text-3xl font-black text-gray-900 dark:text-white mb-4 italic" data-i18n="no-tours">Кечиресиз, тур табылган жок</h3>
-                    <p class="text-gray-500 dark:text-gray-400 max-w-md mx-auto mb-10" data-i18n="no-tours-desc">
-                        Сиз издеген параметрлер боюнча азырынча турлар жок.
-                    </p>
-                    <a href="{% url 'home' %}" class="inline-block bg-black dark:bg-white dark:text-black text-white px-12 py-5 rounded-2xl font-black uppercase text-xs tracking-[0.2em] hover:bg-[#D4AF37] hover:text-black transition-all shadow-xl" data-i18n="btn-show-all">
-                        Бардык турларды көрсөтүү
-                    </a>
-                </div>
-            {% endfor %}
-        </div>
-    </div>
 </section>
 
-<style>
-    .zoom-effect { transition: transform 25s linear; }
-    section:hover .zoom-effect { transform: scale(1.15); }
 
-    /* Түн режиминдеги атайын өткөөлдөр */
-    .dark body { background-color: #0f172a; }
+
+<div class="container mx-auto px-6" style="margin-top: -60px; position: relative; z-index: 30;">
+
+<form action="{% url 'home' %}" method="GET" class="max-w-5xl mx-auto bg-white dark:bg-slate-900 p-3 md:p-5 rounded-[2.5rem] shadow-2xl flex flex-col md:flex-row gap-4 border border-gray-100 dark:border-white/10 transition-all duration-300">
+
+
+
+<div class="flex-1 flex items-center px-6 py-2 border-b md:border-b-0 md:border-r border-gray-100 dark:border-white/10">
+
+<i class="fas fa-map-marker-alt text-[#D4AF37] mr-4 text-xl"></i>
+
+<div class="flex-1">
+
+<label class="block text-[10px] uppercase font-bold text-gray-400 tracking-widest" data-i18n="search-where">Каякка?</label>
+
+<input type="text" name="search" placeholder="Мисалы: Кара-Кой" data-i18n-placeholder="search-placeholder"
+
+class="w-full focus:outline-none bg-transparent text-gray-800 dark:text-white font-medium placeholder-gray-300"
+
+value="{{ search_query|default:'' }}">
+
+</div>
+
+</div>
+
+
+
+<div class="flex-1 flex items-center px-6 py-2 border-b md:border-b-0 md:border-r border-gray-100 dark:border-white/10">
+
+<i class="fas fa-calendar-alt text-[#D4AF37] mr-4 text-xl"></i>
+
+<div class="flex-1">
+
+<label class="block text-[10px] uppercase font-bold text-gray-400 tracking-widest" data-i18n="search-when">Качан?</label>
+
+<select name="month" class="w-full focus:outline-none text-gray-800 dark:text-white font-medium bg-transparent cursor-pointer">
+
+<option value="" class="text-gray-900 dark:bg-slate-900 dark:text-white" data-i18n="select-month">Кайсы айда?</option>
+
+<option value="Март" {% if month_query == "Март" %}selected{% endif %}>Март</option>
+
+<option value="Апрель" {% if month_query == "Апрель" %}selected{% endif %}>Апрель</option>
+
+<option value="Май" {% if month_query == "Май" %}selected{% endif %}>Май</option>
+
+<option value="Июнь" {% if month_query == "Июнь" %}selected{% endif %}>Июнь</option>
+
+<option value="Июль" {% if month_query == "Июль" %}selected{% endif %}>Июль</option>
+
+<option value="Август" {% if month_query == "Август" %}selected{% endif %}>Август</option>
+
+</select>
+
+</div>
+
+</div>
+
+
+
+<button type="submit" class="bg-[#D4AF37] hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black text-black px-12 py-5 rounded-3xl font-black uppercase tracking-widest text-xs transition-all duration-500 shadow-lg shadow-amber-200/50" data-i18n="search-btn">
+
+Издөө
+
+</button>
+
+</form>
+
+</div>
+
+
+
+<section class="py-24 bg-gray-50 dark:bg-[#0f172a] transition-colors duration-300">
+
+<div class="container mx-auto px-6">
+
+
+
+<div class="flex justify-between items-end mb-16">
+
+<div>
+
+<h2 class="text-4xl md:text-6xl font-black text-gray-900 dark:text-white uppercase tracking-tighter italic">
+
+<span data-i18n="tours-title">Сунушталган</span> <span class="text-[#D4AF37]" data-i18n="tours-highlight">турлар</span>
+
+</h2>
+
+<div class="w-24 h-2 bg-[#D4AF37] mt-4"></div>
+
+</div>
+
+</div>
+
+
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+
+{% for tour in tours %}
+
+<div class="bg-white dark:bg-slate-900 rounded-[2.5rem] overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 group border border-gray-100 dark:border-white/5 flex flex-col h-full">
+
+<div class="relative h-72 overflow-hidden">
+
+{% if tour.image %}
+
+<img src="{{ tour.image.url }}" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+
+{% endif %}
+
+<div class="absolute top-6 right-6 bg-white/90 dark:bg-slate-800/95 backdrop-blur px-5 py-2.5 rounded-2xl font-black text-gray-900 dark:text-white shadow-xl border border-white/50 dark:border-white/10">
+
+{{ tour.price }} сом
+
+</div>
+
+</div>
+
+
+
+<div class="p-8 flex flex-col flex-grow text-left">
+
+<div class="flex items-center gap-3 mb-4">
+
+<span class="text-[10px] font-bold text-[#D4AF37] uppercase bg-amber-50 dark:bg-amber-900/30 px-3 py-1 rounded-lg">
+
+<i class="far fa-clock mr-1"></i> {{ tour.duration }}
+
+</span>
+
+<span class="text-[10px] font-bold text-gray-400 uppercase bg-gray-50 dark:bg-white/5 px-3 py-1 rounded-lg">
+
+<i class="far fa-calendar-alt mr-1"></i> {{ tour.month }}
+
+</span>
+
+</div>
+
+
+
+<h3 class="text-2xl font-black text-gray-900 dark:text-white mb-6 group-hover:text-[#D4AF37] transition line-clamp-2">
+
+{{ tour.title }}
+
+</h3>
+
+
+
+<div class="mt-auto pt-6 flex gap-3">
+
+<a href="{% url 'tour_detail' tour.pk %}"
+
+class="flex-1 text-center py-4 border-2 border-gray-100 dark:border-white/10 rounded-2xl font-bold text-[10px] uppercase tracking-widest text-gray-400 dark:text-gray-300 hover:border-black dark:hover:border-white hover:text-black dark:hover:text-white transition-all" data-i18n="btn-details">
+
+Кененирээк
+
+</a>
+
+<a href="https://wa.me/996553956070?text=Саламатсызбы! '{{ tour.title }}' туру боюнча маалымат алайын дедим эле."
+
+class="flex-1 bg-[#D4AF37] text-center py-4 rounded-2xl font-bold text-[10px] uppercase tracking-widest text-black hover:bg-black hover:text-white transition-all" data-i18n="btn-book">
+
+Брондоо
+
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+{% empty %}
+
+<div class="col-span-full text-center py-24 bg-white dark:bg-slate-900 rounded-[3rem] shadow-sm border-2 border-dashed border-gray-100 dark:border-white/10 px-6">
+
+<div class="inline-flex items-center justify-center w-24 h-24 bg-amber-50 dark:bg-amber-900/20 rounded-full mb-8">
+
+<i class="fas fa-search-location text-4xl text-[#D4AF37]"></i>
+
+</div>
+
+<h3 class="text-3xl font-black text-gray-900 dark:text-white mb-4 italic" data-i18n="no-tours">Кечиресиз, тур табылган жок</h3>
+
+<p class="text-gray-500 dark:text-gray-400 max-w-md mx-auto mb-10" data-i18n="no-tours-desc">
+
+Сиз издеген параметрлер боюнча азырынча турлар жок.
+
+</p>
+
+<a href="{% url 'home' %}" class="inline-block bg-black dark:bg-white dark:text-black text-white px-12 py-5 rounded-2xl font-black uppercase text-xs tracking-[0.2em] hover:bg-[#D4AF37] hover:text-black transition-all shadow-xl" data-i18n="btn-show-all">
+
+Бардык турларды көрсөтүү
+
+</a>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<div class="fixed bottom-10 left-8 z-[1000]">
+
+<button id="order-btn" class="group w-16 h-16 bg-yellow-600 text-black rounded-full shadow-2xl hover:scale-110 active:scale-95 transition-all flex items-center justify-center">
+
+<i class="fas fa-feather-alt text-2xl"></i>
+
+</button>
+
+
+
+<div id="floating-order-box" class="absolute bottom-24 left-0 w-[300px] md:w-[380px] bg-white dark:bg-slate-900 rounded-[3rem] shadow-2xl border border-black/5 dark:border-white/10 p-8 opacity-0 pointer-events-none transition-all duration-500 scale-90 origin-bottom-left">
+
+<div class="flex justify-between items-center mb-6">
+
+<h3 class="text-lg font-black uppercase italic dark:text-white">
+
+<span data-i18n="float-title-1">Тез</span> <span class="text-yellow-600" data-i18n="float-title-2">заказ</span>
+
+</h3>
+
+<button id="close-order" class="text-gray-400 hover:text-black dark:hover:text-white transition"><i class="fas fa-times"></i></button>
+
+</div>
+
+<form class="space-y-4">
+
+<input type="text" data-i18n-placeholder="placeholder-name" placeholder="Атыңыз" class="w-full bg-gray-50 dark:bg-slate-800 rounded-2xl px-5 py-4 outline-none text-sm dark:text-white border border-transparent focus:border-yellow-600 transition">
+
+<input type="tel" data-i18n-placeholder="placeholder-phone" placeholder="Телефон" class="w-full bg-gray-50 dark:bg-slate-800 rounded-2xl px-5 py-4 outline-none text-sm dark:text-white border border-transparent focus:border-yellow-600 transition">
+
+<button class="w-full bg-black dark:bg-yellow-600 text-white dark:text-black py-4 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-yellow-600 dark:hover:bg-white transition" data-i18n="btn-send">Жөнөтүү</button>
+
+</form>
+
+</div>
+
+</div>
+
+
+
+<style>
+
+.zoom-effect { transition: transform 25s linear; }
+
+section:hover .zoom-effect { transform: scale(1.15); }
+
+.dark body { background-color: #0f172a; }
+
+
+
+/* Заказ кутучасынын активдүү абалы */
+
+#floating-order-box.active { opacity: 1; pointer-events: auto; transform: scale(1); }
+
 </style>
-{% endblock %}
+
+
+
+<script>
+
+document.addEventListener('DOMContentLoaded', () => {
+
+const orderBtn = document.getElementById('order-btn');
+
+const orderBox = document.getElementById('floating-order-box');
+
+const closeBtn = document.getElementById('close-order');
+
+
+
+if(orderBtn && orderBox) {
+
+orderBtn.addEventListener('click', () => {
+
+orderBox.classList.toggle('active');
+
+});
+
+}
+
+
+
+if(closeBtn) {
+
+closeBtn.addEventListener('click', () => {
+
+orderBox.classList.remove('active');
+
+});
+
+}
+
+
+
+// Кутучанын сыртын басканда жабылуу
+
+window.addEventListener('click', (e) => {
+
+if (orderBox && !orderBox.contains(e.target) && e.target !== orderBtn && !orderBtn.contains(e.target)) {
+
+orderBox.classList.remove('active');
+
+}
+
+});
+
+});
+
+</script>
+
+{% endblock %}ф
